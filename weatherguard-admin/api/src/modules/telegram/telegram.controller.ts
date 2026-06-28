@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Headers, UnauthorizedException, HttpCode } from '@nestjs/common';
+import { Controller, Post, Get, Body, Headers, Query, UnauthorizedException, HttpCode } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TelegramService } from './telegram.service';
 
@@ -8,6 +8,31 @@ export class TelegramController {
     private telegramService: TelegramService,
     private configService: ConfigService,
   ) {}
+
+  @Get('setup-webhook')
+  async setupWebhook(@Query('url') url: string) {
+    if (!url) {
+      return { error: 'Please provide your ngrok url, e.g., ?url=https://yourapp.ngrok.app' };
+    }
+    const secret = this.configService.get<string>('telegramWebhookSecret');
+    const token = this.configService.get<string>('telegramBotToken');
+    const webhookUrl = `${url.replace(/\/$/, '')}/telegram/webhook`;
+    
+    try {
+      const response = await fetch(`https://api.telegram.org/bot${token}/setWebhook`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url: webhookUrl,
+          secret_token: secret,
+        }),
+      });
+      const data = await response.json();
+      return { success: true, webhookUrl, telegramResponse: data };
+    } catch (e: any) {
+      return { success: false, error: e.message };
+    }
+  }
 
   @Post('webhook')
   @HttpCode(200)
@@ -31,8 +56,6 @@ export class TelegramController {
           const user = await this.telegramService.linkChat(token, chatId);
           if (user) {
             await this.telegramService.sendApprovalNotice(chatId);
-          } else {
-            await this.telegramService.sendMessage(chatId, 'That link is invalid or expired.');
           }
         } else if (text === '/start') {
           // /start without a token — user opened bot directly
