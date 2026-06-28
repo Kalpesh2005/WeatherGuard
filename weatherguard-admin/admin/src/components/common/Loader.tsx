@@ -1,9 +1,11 @@
 import React from 'react';
 
-export const Loader: React.FC = () => {
-  return (
-    <div className="flex justify-center items-center h-screen w-full bg-gray-50">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+export const Loader: React.FC = () => (
+  <div className="flex flex-col items-center justify-center py-20 gap-4">
+    <div className="relative w-12 h-12">
+      <div className="absolute inset-0 rounded-full border-2 border-indigo-500/20"></div>
+      <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-indigo-500 animate-spin"></div>
     </div>
-  );
-};
+    <p className="text-sm text-slate-500 font-medium animate-pulse">Loading...</p>
+  </div>
+);

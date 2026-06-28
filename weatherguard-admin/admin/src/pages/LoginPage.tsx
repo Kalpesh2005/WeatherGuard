@@ -6,37 +6,68 @@ import { getGoogleLoginUrl } from '../api/auth.api';
 export const LoginPage: React.FC = () => {
   const { user } = useAuth();
 
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
-  }
+  if (user) return <Navigate to="/dashboard" replace />;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-indigo-900 via-purple-900 to-black p-4">
-      {/* Glassmorphism Card */}
-      <div className="max-w-md w-full bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-8 transform transition-all hover:scale-[1.01] duration-300">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, #0a0f1e 0%, #0f172a 50%, #0a0f1e 100%)' }}>
+      
+      {/* Animated background orbs */}
+      <div className="orb orb-1" />
+      <div className="orb orb-2" />
+      <div className="orb orb-3" />
 
-        <div className="text-center mb-10">
-          <div className="mx-auto h-16 w-16 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30">
-            {/* Simple cloud/weather icon using SVG */}
-            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-            </svg>
+      {/* Grid overlay */}
+      <div className="absolute inset-0 opacity-5" style={{
+        backgroundImage: 'linear-gradient(rgba(99,102,241,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.5) 1px, transparent 1px)',
+        backgroundSize: '50px 50px'
+      }} />
+
+      {/* Card */}
+      <div className="relative z-10 w-full max-w-md mx-4">
+        <div className="glass rounded-2xl p-8 shadow-2xl" style={{
+          border: '1px solid rgba(99,102,241,0.2)',
+          boxShadow: '0 0 60px rgba(99,102,241,0.15), 0 25px 50px rgba(0,0,0,0.5)'
+        }}>
+          {/* Icon */}
+          <div className="flex flex-col items-center mb-8">
+            <div className="h-16 w-16 rounded-2xl flex items-center justify-center mb-5"
+              style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', boxShadow: '0 0 40px rgba(99,102,241,0.5)' }}>
+              <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                  d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+              </svg>
+            </div>
+            <h1 className="text-3xl font-extrabold gradient-text tracking-tight">WeatherGuard</h1>
+            <p className="mt-1 text-sm text-slate-400 font-medium">Secure Admin Portal</p>
           </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-black mb-2">
-            WeatherGuard
-          </h2>
-          <p className="text-indigo-700 text-sm font-medium">
-            Secure admin portal & alert management
-          </p>
-        </div>
 
-        <div className="space-y-4">
+          {/* Divider */}
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.07)' }} />
+            <span className="text-xs text-slate-500 font-medium">Sign in to continue</span>
+            <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.07)' }} />
+          </div>
+
+          {/* Google button */}
           <button
             onClick={() => { window.location.href = getGoogleLoginUrl(); }}
-            className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl shadow-sm hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5"
+            style={{
+              background: 'rgba(255,255,255,0.06)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.3)'
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)';
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(99,102,241,0.2)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)';
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+            }}
           >
-            {/* Google Icon SVG */}
-            <svg className="h-5 w-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
@@ -44,11 +75,16 @@ export const LoginPage: React.FC = () => {
             </svg>
             Continue with Google
           </button>
+
+          <p className="mt-6 text-center text-xs text-slate-600">
+            By signing in, you agree to our terms of service.
+          </p>
         </div>
 
-        <div className="mt-8 text-center text-xs text-indigo-200/60">
-          By signing in, you agree to our terms of service and privacy policy.
-        </div>
+        {/* Bottom badge */}
+        <p className="text-center mt-4 text-xs text-slate-600">
+          WeatherGuard © 2026 · Invite-only platform
+        </p>
       </div>
     </div>
   );

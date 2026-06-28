@@ -36,19 +36,31 @@ export const ApproveButton: React.FC<ApproveButtonProps> = ({ userId, onActionCo
   };
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex items-center justify-end gap-2">
       <button
         onClick={handleApprove}
         disabled={isLoading}
-        className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-white bg-green-600 hover:bg-green-700 disabled:opacity-50"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-300 transition-all duration-200 disabled:opacity-50"
+        style={{ background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.25)' }}
+        onMouseEnter={e => !isLoading && ((e.currentTarget as HTMLElement).style.background = 'rgba(16,185,129,0.22)')}
+        onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(16,185,129,0.12)')}
       >
+        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+        </svg>
         Approve
       </button>
       <button
         onClick={handleReject}
         disabled={isLoading}
-        className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-red-600 bg-red-100 hover:bg-red-200 hover:text-red-700 disabled:opacity-50"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-red-300 transition-all duration-200 disabled:opacity-50"
+        style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)' }}
+        onMouseEnter={e => !isLoading && ((e.currentTarget as HTMLElement).style.background = 'rgba(239,68,68,0.22)')}
+        onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(239,68,68,0.12)')}
       >
+        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+        </svg>
         Reject
       </button>
     </div>
