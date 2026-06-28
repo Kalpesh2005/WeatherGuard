@@ -81,12 +81,24 @@ export const DashboardPage: React.FC = () => {
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-white">You're Approved! 🎉</h2>
-                  <p className="text-slate-400 text-sm mt-1">Ask the admin for your Telegram link to start receiving weather alerts.</p>
+                  <p className="text-slate-400 text-sm mt-1">Connect your Telegram account to start receiving automated weather alerts.</p>
                 </div>
-                <div className="px-4 py-3 rounded-xl text-sm text-cyan-300 font-medium"
-                  style={{ background: 'rgba(6,182,212,0.08)', border: '1px solid rgba(6,182,212,0.2)' }}>
-                  Check with admin for your Telegram link →
-                </div>
+                {user.telegramLinkUrl ? (
+                  <a
+                    href={user.telegramLinkUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary block w-full text-center"
+                    style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)', boxShadow: '0 0 20px rgba(6,182,212,0.3)' }}
+                  >
+                    Connect Telegram Bot
+                  </a>
+                ) : (
+                  <div className="px-4 py-3 rounded-xl text-sm text-cyan-300 font-medium"
+                    style={{ background: 'rgba(6,182,212,0.08)', border: '1px solid rgba(6,182,212,0.2)' }}>
+                    Awaiting link generation from Admin...
+                  </div>
+                )}
               </div>
             )}
 

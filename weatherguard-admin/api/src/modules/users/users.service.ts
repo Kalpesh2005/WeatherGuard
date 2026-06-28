@@ -9,9 +9,14 @@ import { User, UserDocument } from './schemas/user.schema';
 import { UserStatus } from './enums/user-status.enum';
 import { UserResponseDto } from './dto/user-response.dto';
 
+import { ConfigService } from '@nestjs/config';
+
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private configService: ConfigService,
+  ) {}
 
   async findByProviderId(
     provider: string,
@@ -46,6 +51,11 @@ export class UsersService {
   }
 
   toPublicProfile(user: UserDocument): UserResponseDto {
+    const username = this.configService.get<string>('telegramBotUsername');
+    const telegramLinkUrl = user.telegramLinkToken
+      ? `https://t.me/${username}?start=${user.telegramLinkToken}`
+      : undefined;
+
     return {
       id: user._id.toString(),
       name: user.name,
@@ -54,6 +64,7 @@ export class UsersService {
       role: user.role,
       status: user.status,
       hasTelegramLinked: !!user.telegramChatId,
+      telegramLinkUrl,
       createdAt: (user as any).createdAt,
     };
   }

@@ -9,6 +9,7 @@ export interface User {
   role: UserRole;
   status: UserStatus;
   hasTelegramLinked: boolean;
+  telegramLinkUrl?: string;
   createdAt: string;
 }
 

@@ -9,5 +9,6 @@ export class UserResponseDto {
   role!: UserRole;
   status!: UserStatus;
   hasTelegramLinked!: boolean;
+  telegramLinkUrl?: string;
   createdAt!: Date;
 }
